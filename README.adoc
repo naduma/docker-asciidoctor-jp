@@ -1,0 +1,44 @@
+= Asciidoctor Docker Container with Japanese
+
+link:https://github.com/asciidoctor/docker-asciidoctor[asciidoctor/docker-asciidoctor]をベースに日本語を使えるようしたDockerコンテナです。
+
+== カスタマイズ内容
+
+* link:https://www.google.com/get/noto/help/cjk/[Noto CJK] 追加
+* java に Noto CJK フォント設定
+* blogdiag / actdiag / nwdiag / seqdiag に Noto CJK フォント設定
+* Prawn SVG に日本語フォント（M+ 1p Fallback）を指定するコードを追加 +
+  `/usr/lib/ruby/gems/2.5.0/gems/asciidoctor-pdf-1.5.0.beta.7/lib/prawn_svg_patch.rb`
+* asciidoctor コマンドのラッパー
+** adoc : `asciidoctor -r asciidoctor-diagram`
+** adoc-pdf : `asciidoctor-pdf -r asciidoctor-pdf-cjk -r asciidoctor-diagram -r prawn_svg_patch.rb -a pdf-style=default-with-fallback-font`
+
+== 環境
+
+* asciidoctor (2.0.10)
+* asciidoctor-confluence (0.0.2)
+* asciidoctor-diagram (1.5.19)
+* asciidoctor-epub3 (1.5.0.alpha.9)
+* asciidoctor-mathematical (0.3.1)
+* asciidoctor-pdf (1.5.0.beta.7)
+* asciidoctor-pdf-cjk (0.1.3)
+* asciidoctor-revealjs (2.0.0)
+
+== 使い方
+
+コンテナ起動:
+
+``` bash
+docker run -it -v <あなたのディレクトリ>:/documents/ nazuma/docker-asciidoctor-jp
+```
+
+基本的な使い方
+``` bash
+asciidoctor sample.adoc
+asciidoctor-pdf -r asciidoctor-pdf-cjk -r prawn_svg_patch.rb -a pdf-style=default-with-fallback-font sample.adoc
+```
+もしくは
+``` bash
+adoc sample.adoc
+adoc-pdf sample.adoc
+```
