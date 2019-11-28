@@ -12,7 +12,7 @@ RUN blockDiagFont='/usr/share/fonts/noto/NotoSansMonoCJKjp-Regular.otf' \
   && mkdir -p mkdir -p /usr/lib/jvm/java-1.8-openjdk/jre/lib/fonts/fallback \
   && ln -s /usr/share/fonts/noto/* /usr/lib/jvm/java-1.8-openjdk/jre/lib/fonts/fallback/ \
   && echo -e "[blockdiag]\nfontpath = $blockDiagFont\n[seqdiag]\nfontpath = $blockDiagFont\n[actdiag]\nfontpath = $blockDiagFont\n[nwdiag]\nfontpath = $blockDiagFont\n[rackdiag]\nfontpath = $blockDiagFont\n[packetdiag]\nfontpath = $blockDiagFont" > /root/.blockdiagrc \
-  && gem install asciidoctor-pdf-cjk -N \
+  && gem install asciidoctor-pdf-cjk asciidoctor-rouge -N \
   && echo 'Prawn::Svg::Font::GENERIC_CSS_FONT_MAPPING.merge!('\''sans-serif'\'' => '\''M+ 1p Fallback'\'')' > /usr/lib/ruby/gems/2.5.0/gems/asciidoctor-pdf-1.5.0.beta.7/lib/prawn_svg_patch.rb \
   && echo -e '#!/bin/sh\n\nasciidoctor -r asciidoctor-diagram "$@"' > /usr/local/bin/adoc \
   && echo -e '#!/bin/sh\n\nasciidoctor-pdf -r asciidoctor-pdf-cjk -r asciidoctor-diagram -r prawn_svg_patch.rb -a pdf-style=default-with-fallback-font "$@"' > /usr/local/bin/adoc-pdf \
